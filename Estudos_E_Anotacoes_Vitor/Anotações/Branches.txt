@@ -1,0 +1,135 @@
+BRANCHES:
+
+O que são?
+Uma ramificação, permite a criação de versões diferentes que partem de um ponto em comum, 
+
+as alterações de diferentes Branches não alteram a Main, mas as Branches podem sofrer um merge, e mesclar com a Branch main
+
+Comandos:
+
+Git Branch / Git Branch --list -> lista as Branchs
+
+git branch <nome da nova branch> -> Cria uma Branch
+
+git checkout <nome da branch> -> navega para a Branch descrita
+
+!Os nomes das Branchs não podem ter espaços
+
+git checkout -b <nome Branch> -> Cria e já navega para a nova branch
+
+recomendado:
+
+git switch -c <nome da Branch> -> Cria e já navefa para a nova branch
+
+git switch <nome> -> alterna para a Branch
+git switch - -> Volta para a última selecionada
+
+As modificações não salvas acompanham o usuario na troca das branchs
+
+usamos o:
+git checkout -f <nome> -> altera e limpa as alterações, as desfazendo
+
+
+Detached HEAD:
+
+main -> aponta o último commit
+Head -> aponta onde estou navegando
+
+Ao passar por um commit antigo nós usamos o conceito de Detached Head, onde o local atual é um commit que já passou, mas podemos fazer alterações nesse commit, e criar uma nova Branch com o comando: 
+
+git switch -c <nome da Branch>
+
+
+Branch remotas:
+
+git push --set-upstream <nomeclatura URL> <Branch que será enviada> -> Envia uma Branch para o servidor
+
+git push -u <nomeclatura URL> <Branch que será enviada> -> faz a mesma coisa
+
+
+DELETANDO BRANCHES:
+
+Local:
+git branch -d <branch> 
+
+com o -D maiusculo, você força a remoção 
+
+As remoções apagam o histórico
+
+Remoto:
+git push --delete <nomeclatura URL> <branch>
+não apaga no local, se um usuario que já havia clonado enviar um Push com a branch, ela é criada novamente
+
+
+-----------------------------------------------------
+Alterando nomes:
+
+Branch checada:
+git branch -m <novo nome>
+
+Branch Não checada:
+git branch -m <nome antigo> <nome novo>
+
+Não dá para alterar o nome no servidor, tem que apagar, mudar localmente e enviar novamente
+
+-----------------------------------------------------
+Git log pode ser usado da seguinte forma:
+
+git log <nome Branch> --oneline -1
+
+-----------------------------------------------------
+MERGE:
+
+o git merge, traz as mudanças para o Branch atual, NUNCA ENVIA
+Ele traz somente as informações que não tem na atual
+
+git merge <branch>
+
+git branch --no-merged -> Verfica quais não foram mergeadas
+git branch --merged -> verifica as mergeadas
+
+---------------------------------------------------------
+
+Quando há informações conflitantes (dados que podem se sobrescrever de Branch para Branch, o Git solicita a resolução e abre um processo de Merging
+esse processo pode ser resolvido com uma desistência
+
+git merge --abort ou
+git resert --hard
+
+O visual Studio Code ajuda na resolução de conflitos, com o simbolo da Branch, basta abrir o conflito com ele
+
+start .
+
+-------------------------------------------------------------------------------------------------------
+STASH:
+	
+O Stash serve para salvar alterações de uma Branch, sem que seja necessário dar um commit, para que outra Branch possa ser acessado sem perder o trabalho já realizado 
+
+git stash -> realiza o Stash, o arquivo volta ao estado do Commit, mas guarda as alterações no Stash
+
+O Git tem uma memória reservada para guardar os Stachs, acessamos pelo comando:
+git stash list
+
+O Stash só guarda arquivos rastreados
+
+voltando os arquivos:
+git stash apply
+
+
+----------------------------
+
+O Stash mais recente é sempre o 0!
+
+git stash apply stash@{<número>} -> Para aplicar um Stash especifico
+
+
+REMOVENDO:
+
+git stash pop -> Aplica e já remove o STASH
+git stash drop <numero> -> Exclui defitinivamente o Stash	
+
+----------------------------
+
+Criando uma Branch à partir do STASH:
+
+git stash branch <nome da branch> stash@{<número>}

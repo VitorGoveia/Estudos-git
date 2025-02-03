@@ -1,0 +1,9 @@
+SOURCE CODE MANAGEMENT (GERENCIAMENTO DO CÓDIGO FONTE):
+
+Um modo de organizar o projeto
+
+Main - projeto em perfeito estado, funcionando e sem erros
+
+Develop - área com testes, onde são produzidas as aletrações
+
+Feature - Novas funcionalidades, para serem acrescidas à Develop

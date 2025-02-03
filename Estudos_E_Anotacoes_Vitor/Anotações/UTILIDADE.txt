@@ -1,0 +1,36 @@
+ALIAS (Abreviação de comandos)
+
+
+git config --global alias.<nova palavra> <comando> -> Cria uma nova palavra chave para o comando
+git config --global alias.s status
+
+Com espaço:
+
+git config --global alias.line 'log --oneline'
+
+As palavras devem ser únicas!
+
+!Caso você use uma palavra padrão, que já é um comando, o GIT só ignora o alias
+
+DESFAZENDO:
+
+git config --global --unset alias.<nova palavra>
+
+
+------------------------------------------------------------------------------------------------------
+GREP (Filtro)
+
+Todo o comando que retorna uma lista (log, branch) pode ter um filtro, chamado de GREP (Não é nativo do git)
+
+!É case sensitive (C != c)
+
+git branch | grep <Palavra do filtro> 
+git log --oneline | grep <Palavra do filtro>
+
+-------------------------------------------------------------------------------------------------------------
+
+FERRAMENTAS GRÁFICAS:
+
+SOURCE TREE e GIT KRAKEN:
+
+Um git bem gráfico

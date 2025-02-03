@@ -1,0 +1,207 @@
+O QUE É O GIT
+
+um sistema de controle de versionamentos
+
+----------------------------------------------------------------------------------------------------
+Configuração de usuario
+
+Git config --global user.name "Nome" -> Informa o nome
+Git config --global user.name -> verifica o nome
+
+Git config --global user.email "E-mail do use" -> Informa o nome
+Git config --global user.email -> verifica o nome
+
+----------------------------------------------------------------------------------------------------
+git config --list --> Informa uma lista de todas as configurações
+ls                --> Listar
+ls -a             --> Listar todos arquivos (ocultos inclusos)
+
+----------------------------------------------------------------------------------------------------
+git init          --> Criar um repositório
+Por padrão pastas não são repositórios, mas com esse comando passam a ser
+
+----------------------------------------------------------------------------------------------------
+git status        --> Verifica o Status do repositório, para saber de commits e trackings
+
+git add           --> Adiciona um arquivo a rastreabilidade do GIT
+
+Mesmo um item na pasta de um repositório, não siginifica que o Git faça a rastreabilidade dele, o git apenas o reconhece, é preciso então adicionar o item a rastreabilidade (tracking)
+
+podemos usar os comandos Adds, da seguinte maneira:
+
+git add "Nome do arquivo" (com um tab o git ajuda a digitar)
+Para trakear tudo:
+git add .
+git add -A
+git add --all
+
+git rm --cached <file>...  --> para remover arquivos da rastreabilidade
+Simplesmente fazer o inverso do add
+
+git rm --cached -r . (remove tudo)
+----------------------------------------------------------------------------------------------------
+COMMIT:
+
+git commit -m "Nome da Versão" --> commit básico "-m" seria para texto
+Basicamente estou salvando todas as alterações para o padrão do arquivo, adicionando o versionamento ao histórico também
+----------------------------------------------------------------------------------------------------
+CICLO DE VIDA DE UM ARQUIVO - 4 ESTADOS
+
+Os arquivos dentro de um repositório podem ser divididos em 4 estados de 2 grupos:
+
+UNTRACKED
+Untracked (não rastreados): Git sabe que existe mas não rastreia
+
+TRAKED (rastreado)
+Unmodified (não modificado): O arquivo está no estado pós commit, sem alterações  
+
+Modified (modificado): Arquivo alterado após o estado Unmodified 
+
+Staged (preparado): O arquivo está pronto para ser salvo, vai para o estado de Unmodified
+
+CICLO DE VIDA DE UM ARQUIVO:
+
+Untracked -> Add -> Staged -> commit -> Unmodified -> edição -> modified -> Staged
+					 
+O arquivo Unmodified pode ser excluido .. commit -> Unmodified -> remoção -> untracked
+
+O arquivo Modified pode ter suas alterações canceladas .. edição -> modified -> Descartar alterações -> Unmodified
+
+----------------------------------------------------------------------------------------------------
+Visualizando alterações:
+
+Git Diff -> Ele é usado para saber o que foi alterado nos arquivos modifield, comparado com os unmodifield (valores já comitados anteriormente)
+
+Mostra linha a linha
+
+diff --git a/Main.txt b/Main.txt
+--- a/Main.txt
++++ b/Main.txt
+ Main
+-Teste
+\ No newline at end of file
++Teste
++lll
+
+Quando se dá add em um arquivo ele sai do estado Modifield e entra no estado staged, dessa forma o Git diff, não funcionará
+é preciso usar o:
+
+git diff --cached OU git diff --staged -> Nesse comando ele verifica os arquivos staged comparados ao Unmodifield
+
+
+---------------------------------------------------------------------------------------------------------------------------
+HISTORICO:
+
+Git log -> mostra o histórico dos commits, ele mostra através do nome, o que mostra a importância de bons nomes, descrevendo o que foi feito!
+
+O arquivo mais recente leva o título de HEAD, que seria o mais atualizado e o arquivo baixado no Download
+dados no log: O número pelo algoritmo SHA-1, nome, e-mail, nome do commit, data e hora
+
+commit 018d8f83deb5fceaebdb168d86ec2a5dd865fb6d (HEAD -> master)
+Author: João Vitor Goveia <Vitorgoveia2908@gmail.com>
+Date:   Mon Jan 13 22:45:28 2025 -0300
+
+    Versão 3 - aula 14
+
+git log --oneline -> resume os commits, mostrando o hash e o nome do commit
+
+git log -N -> para delimitar um número especifico de linhas/commits que irão aparecer
+ex. git log -1 ou git log --oneline -2
+
+PATCH:
+
+git log --patch ou git log -p -> mostra as alterações feitas igual ao git diff, mostrando tudo que foi feito naquele commit
+
+git log --stat -> mostra os arquivos que sofreram alteração 
+
+git log --shortstat -> mostra quantos arquivos foram alterados, quantas linhas foram modificadas e deletadas
+
+Use o q como "ESC", para finalizar a navegação
+
+---------------------------------------------------------------------------------------------------------------------------
+Alterando um COMMIT:
+
+quando se altera um commit, o GIT joga o atual fora e lança um novo com a alteração do nome, por esse motivo é perigoso de usar em uma equipe
+
+git commit --amend -m "Novo nome" -> Lança a alteração do nome do commit
+
+caso em que faltou arquivos no commit:
+git commit --amend --no-edit  -> Salva um novo commit sem alteração de nome
+
+git commit --amend -> abre um terminal diferente, nele você pode fazer as alterações, para sair basta apertar ESC, :wq
+---------------------------------------------------------------------------------------------------------------------------
+
+Editor de texto padrão:
+
+git config --global core.editor "code --wait" -> transforma o Visual Studio Code como o editor padrão de alterações do amend
+
+code . -> abre o VS Code na pasta aberta
+
+
+https://docs.github.com/en/get-started/getting-started-with-git/associating-text-editors-with-git
+---------------------------------------------------------------------------------------------------------------------------
+
+Verificando commits antigos:
+
+(Shift insert) = Ctrl + v
+
+Git checkout "hash" -> volta para o repositório de quando o hash selecionado estava como main
+
+PARA VOLTAR basta digitar
+Git checkout master 
+
+---------------------------------------------------------------------------------------------------------------------------
+DESFAZENDO AS ALTERAÇÕES:
+
+git checkout "Arquivo" -> restaura o arquivo para a última versão do commit, para arquivos tracked/modified
+por esse motivo os arquivos untracked não funcionam com o checkout
+
+devemos usar o git clean no lugar, 
+git clean -f -> limpa arquivos untracked 
+
+git rm --cached Arquivo -> Remove um arquivo do estado de staged, com ou sem commits
+git restore --staged Arquivo -> Remove um arquivo do estado staged, mas precisa ter um histórico
+
+git reset --hard -> limpa tudo feito após o último commit
+
+--------------------------------------------------------------------------------------------------------------------------
+IGNORANDO ARQUIVOS: (gitignore)
+
+(Criando arquivos com o git (Touch)
+touch teste.txt -> cria um arquivo do tipo txt, chamado teste
+-----
+
+criando o arquivo .gitignore
+
+touch .gitignore -> cria o arquivo .gitignore
+
+ao abrir ele, podemos adicionar tudo aquilo Untracked, que deve ser ignorado, ou seja, não deve aparecer para ser posto como staged
+dessa forma podemos criar arquivos ocultos, utilização, eu criei a pasta anotações, quero que tudo que esteja nela seja ignorado, não quero que fique staged, e que não solicite a adição deles, dessa forma coloco no arquivo .gitignore
+
+"" 
+Anotações/  
+
+#cria comentários
+
+* -> seleciona tudo
+
+*.bat -> ignora todos os arquivos .bat
+""
+--------------------------------------------------------------------------------------------------------------------------
+PARAR DE RATREAR UM ARQUIVO:
+
+git rm -r --cached, caso queira parar de rastrear o arquivo completamente no Git. Permanece no disco, mas sai da rastreabilidade	
+
+git update-index --skip-worktree "arquivo" -> Para ignorar alterações locais em arquivos rastreados, Permanece rastreado.
+git update-index --no-skip-worktree arquivo.txt -> Reverte o skip-worktree
+--------------------------------------------------------------------------------------------------------------------------
+Clonando repositórios:
+
+git clone positorio_Git (nome do arquivo clonado) GitClone (nome do clone) -> Clona o arquivo
+
+Ele mantém todas as informações, todos os logs, todos os commits, todo o histórico!
+
+clonando apartir da internet (github)
+Ao abrir um repositório na internet, o git hub disponibiliza a URL, basta acessar ela e usar o comando:
+
+Git clone <URL> -> Já virá o arquivo com o nome do repositório no computador

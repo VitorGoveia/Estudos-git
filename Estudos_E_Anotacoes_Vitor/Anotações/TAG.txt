@@ -1,0 +1,79 @@
+TAG:
+
+é um ponteiro, 
+
+ele marca os commits, facilita a organização
+---------------------------------------------------------
+
+Existem tipos de Tags:
+
+ => lightweight (tag simples)
+
+git tag <nome> -> cria a tag no ponto que estamos (Branch e Head)
+tags não podem ser duplicadas	
+
+ => Annotated (anotada)
+
+Essa leva uma mensagem a mais, e também possui um rastreio da sua criação
+
+git tag -a - m <descrição> <nome> 
+
+git show <nome da tag> -> Mostra as informações da tag
+
+listar todas as tags:
+
+git tag
+git tag -l
+git tag --list
+
+git tag -n -> Traz a descrição da tag
+A lightweight traz o nome do commit 
+A Annotated traz a descrição da tag
+
+----------------------------------------------------------------------
+TAGS PARA COMMITS ANTIGOS: 
+
+Basta adicionar o HASH do commit no final do comando:
+
+=> lightweight (tag simples)
+
+git tag <nome> <hash>
+
+ => Annotated (anotada)
+
+git tag -a - m <descrição> <nome> <hash>
+
+----------------------------------------------------------------------
+Enviando Tags para o Servidor:
+
+Git push <url> <Nome da tag>
+
+Git push --tags -> Envia todas de uma vez 
+----------------------------------------------------------------------
+
+Usando TAGS COMO COMMIT:
+
+git checkout <nome da tag> -> Navega para o Commit
+
+Funciona pois as Tags são marcadores dos commits
+
+----------------------------------------------------------------------
+REMOVENDO TAGS:
+
+Local:
+git tag -d <nome da tag>
+
+Servidor:
+git push --delete <url> <nome da tag>
+
+-------------------------------------------------------------------------------------------------------
+Sobrescrevendo TAGS:
+
+Local
+git tag -f v1.0
+
+Remoto
+git push origin v1.0 -f
+
+
+

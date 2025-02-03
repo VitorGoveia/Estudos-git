@@ -1,0 +1,117 @@
+
+REVERTENDO COMMIT:
+
+git revert HEAD ou <hash do commit> -> Reverte o Commit, ele NÃO APAGA o Commit, apenas cria um novo, com todas as alterações desfeitas
+
+----------------------------------------------------------------------
+DESFAZENDO UM COMMIT:
+
+Ele apaga o Commit mais atual, ignorando eles:
+
+git reset --hard 
+faz com que qualquer mudança desde o rastreamente sejam apagadas, sem nenhum parametro o HEAD se torna o padrão
+
+git reset --hard Head~<número de commits para serem apagados> -> Apaga os commits mostrados
+
+Dica (Commit com o add all incluso):
+git commit -a -m "<nome do commit>"
+
+git reset --mixed Head~<número de commits para serem apagados> -> Desfaz o commit mas mantém as alterações
+
+git soft --mixed Head~<número de commits para serem apagados> -> As modificações ficam na area de preparação (como se já estivesse com um git add)
+
+----------------------------------------------------------------------
+FORÇANDO MUDANÇAS:
+
+git push --force -> força o envio do repositório local para o servidor
+sobrescreve o remoto com o local
+
+git push --force-with-lease -> Um git force mais cuidadoso, só vai sobrescrever a linha do tempo se não tiver nenhuma perda de alterações
+Mudanças não são perdidas 
+
+Quando as mudanças não são divergêntes, basta dar um git pull, e depois enviar as alterações
+
+----------------------------------------------------------------------
+REBASE:
+
+Quando estamos trabalhando com duas branchs, que partem do mesmo commit, mas que cada uma segue de forma diferente, ao mergear as duas o git cria um commit de merge, que é normal
+
+o Rebase deixa o repositório Linear
+
+git rebase <nome da branch que será trago as informações> -> traz as mudanças que a Branch atual não tem
+ele adiciona os Commits de uma Branch a outra, porém ele recria os postariores aos adicionados, ou seja, muda o HASH
+
+
+Com conflitos:
+
+Podemos abortar o rebase:
+Git rebase --abort
+
+Podemos resolver o conflito e pedir para o Git seguír com o rebase:
+Git rebase --continue
+
+
+Com servidor:
+
+Git pull --rebase -> A branch vai buscar as mudanças do servidor e aplicar na Branch, e irá reescrever os commits dados localmente 
+
+----------------------------------------------------------------------
+
+GIT FETCH:
+
+git fetch -> traz informações do servidor para o local
+
+git fetch <URL> <nome da branch do servidor> -> Traz a branch do servidor, de forma parcial (Não é mostrada em git branch)
+git branch -a -> Vai mostrar todas as branchs, inclusive as trazidas do servidor
+git checkout <nome da branch> -> muda e faz o mapeamento com a branch do fetch anterior
+
+----------------------------------------------------------------------
+MESCLANDO COMMITS COM REBASE:
+
+git rebase --interactive HEAD~<número de commits> -> Abre uma janela interativa 
+
+nela seria possível selecionar um SQUASH, para os commits, mostrados, essa função irá mesclas, deixando apenas o da parte superior ativo
+
+APAGA OS ÚLTIMOS E MANTÉM APENAS O NOVO COMMIT QUE É CRIADO
+
+----------------------------------------------------------------------
+CHERRY PICK
+
+Trazer um commit especifico de uma branch para uma nova branch
+
+git cherry-pick <hash do commit que será trazido>
+
+----------------------------------------------------------------------
+GIT BISECT:
+
+Serve para verificar um erro dentro dos commits, ele usa um algoritmo de busca binária, 
+
+Usar a seguinte ordem:
+
+git bisect start -> Começa a busca
+
+git bisect goog <hash do commit> -> Indica o commmit onde tudo estava ocorrendo da maneira correta
+git bisect bad <hash do commit> -> Indica onde o problema foi notado
+
+com essa informação o Git já irá automaticamente com um checkout para o commit no meio dos selecionados, e você poderá informar:
+
+git bisect good -> Caso o Bug não apareça
+git bisect bad -> caso o Bug apareça 
+
+quando for achado o commit, basta usar o comando:
+
+Bit bisect reset -> para a execução do Bisect
+
+----------------------------------------------------------------------
+FETCH
+
+Podemos trazer novidades do repositório da nuvem, desde commits, para branchs, tags
+
+o git fecth traz as alterações mas não mescla elas
+em comparação o git pull faz um (fetch+merge)
+dessa forma o fetch é um pré-verificação
+
+assim para consolidar a entrada dos itens do servidor, basta usar um:
+
+git merge
+
